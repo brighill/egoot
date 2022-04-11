@@ -1,0 +1,25 @@
+#!/sbin/openrc-run
+# Copyright 2021 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+name="smartdns"
+description=""
+
+CONFIG_FILE="/etc/smartdns/smartdns.conf"
+command=/usr/bin/smartdns
+command_args="-c ${CONFIG_FILE}"
+pidfile="/var/run/${RC_SVCNAME}.pid"
+
+
+depend() {
+        need net
+}
+
+checkconfig() {
+        if [ ! -f ${CONFIG_FILE} ]; then
+                ewarn "${CONFIG_FILE} does not exist."
+                return 1
+        fi
+        return 0
+}
+

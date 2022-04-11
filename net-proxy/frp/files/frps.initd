@@ -1,0 +1,27 @@
+#!/sbin/openrc-run
+# Copyright 2021 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+name="frps"
+description=""
+
+CONFIG_FILE="/etc/frp/frps.ini"
+command=/usr/bin/frps
+command_args="-c ${CONFIG_FILE}"
+pidfile="/var/run/${RC_SVCNAME}.pid"
+command_background="yes"
+output_log="/var/log/frps.log"
+error_log="/var/log/frps.log"
+
+depend() {
+        need net
+}
+
+checkconfig() {
+        if [ ! -f ${CONFIG_FILE} ]; then
+                ewarn "${CONFIG_FILE} does not exist."
+                return 1
+        fi
+        return 0
+}
+
